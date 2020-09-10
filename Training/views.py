@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
+from django.core import serializers
 
-# Create your views here.
+def dashboard(request):
+    return render(request, 'Training/analysis.html', {})
 
 def Home_Page(request):
     context = {}
