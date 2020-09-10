@@ -1,0 +1,412 @@
+{% extends 'Training/index.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-2">
+
+    </div>
+    <div class="col-8">
+        <h1>Get Quote</h1>
+        <form method="post" action="{% url 'training:main_page' %}">
+            {% csrf_token %}
+          <div class="form-group row">
+                <div class="col-6">
+                    <label for="customer_id">Enter Customer ID</label>
+                    <input type="text" class="form-control" name="customer_id" id="customer_id" aria-describedby="emailHelp" placeholder="Enter Customer ID" required>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your details with anyone else.</small>
+                </div>
+               <div class="col-6">
+                    <div class="form-group">
+                        <label for="shop_id">Enter Shopping Point</label>
+                        <input type="number" class="form-control" onblur="myFunction()" name="shop_id" id="shop_id" placeholder="Enter Shopping Point" required>
+                    </div>
+               </div>
+          </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <label>Choose State</label>
+                    <select class="form-control" name="state" style="height:35px" required>
+                      <option value='KL'>KL</option>
+                        <option value='FL'>FL</option>
+                        <option value='None'>Something else here</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                     <div class="form-group">
+                        <label for="location">Enter Pin Code</label>
+                        <input type="number" class="form-control" name="location" id="location" placeholder="Enter Pin Code" required>
+                         <small><span style="color:red" id="errorLoc"></span></small>
+                     </div>
+                </div>
+
+             </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="group_size">Enter Group Size</label>
+                        <input type="number" class="form-control" name="group_size" id="group_size" placeholder="Enter Group Size" required>
+                        <small><span style="color:red" id="errorGroup"></span></small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="car_age">Enter Car Age</label>
+                        <input type="number" class="form-control" name="car_age" id="car_age" placeholder="Enter Car Age" required>
+                        <small><span style="color:red" id="errorAge"></span></small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Choose Car Value</label>
+                            <select class="form-control" style="height:35px" name="car_value" required>
+                                <option value='a'>a</option>
+                                <option value='b'>b</option>
+                                <option value='c'>c</option>
+                                <option value='d'>d</option>
+                                <option value='e'>e</option>
+                                <option value='f'>f</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label>Married</label>
+                    <div class="radio">
+                      <label><input type="radio" value="Yes" name="married">Yes</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="radio" value="No" name="married">No</label>
+                    </div>
+                </div>
+            </div>
+
+           <div class="row">
+               <div class="col-6">
+                   <div class="form-group">
+                        <label for="young_age">Enter Youngest Member Age</label>
+                        <input type="number" class="form-control" name="young_age" id="young_age" placeholder="Enter Youngest Member Age" required>
+                   </div>
+               </div>
+               <div class="col-6">
+                   <div class="form-group">
+                        <label for="elder_age">Enter Eldest Member Age</label>
+                        <input type="number" class="form-control" name="elder_age" id="elder_age" placeholder="Enter Eldest Member Age" required>
+                       <small><span style="color:red" id="errorYoung"></span></small>
+                   </div>
+               </div>
+           </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="risk">Enter Risk Factor</label>
+                        <input type="number" class="form-control" name="risk" id="risk" placeholder="Enter Risk Factor" required>
+                        <small><span style="color:red" id='displayError'></span></small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="prev_duration">Enter Duration With Previous Insurancer</label>
+                        <input type="number" class="form-control" name="prev_duration" id="prev_duration" placeholder="Enter Duration With Previous Insurancer" required>
+                        <small><span style="color:red" id="errorPrev"></span></small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                     <div class="form-group">
+                        <label for="price">Enter Price</label>
+                        <input type="number" class="form-control" name="price" id="price" placeholder="Enter Price" required>
+                     </div>
+                </div>
+                <div class="col-6">
+
+                </div>
+            </div>
+
+<!--            Table-->
+
+<!-- Editable table -->
+<div class="card">
+  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">History</h3>
+  <div class="card-body">
+    <div id="table" class="table-editable">
+        <span class="table-add float-right"><a><i><input type="button" class="btn btn-info btn-rounded btn-sm my-0 waves-effect waves-light" value="ADD" onclick="myTable"></input></i></a></span>
+      <table id="myTableData" class="table table-bordered table-responsive-md table-striped text-center">
+        <thead>
+          <tr>
+            <th class="text-center">A</th>
+            <th class="text-center">B</th>
+            <th class="text-center">C</th>
+            <th class="text-center">D</th>
+            <th class="text-center">E</th>
+            <th class="text-center">F</th>
+            <th class="text-center">G</th>
+            <th class="text-center">H</th>
+              <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Editable table -->
+
+
+
+          <button type="submit" style="color:black" class="ready-btn">Submit</button>
+        </form>
+    </div>
+    <div class="col-2">
+
+    </div>
+</div>
+<script>
+
+    function myTable(){
+        var rows = document.getElementsByTagName("table")[0].rows;
+        var last = rows[rows.length - 1];
+        var cell = last.cells[0];
+        var value = cell.innerHTML;
+        console.log(rows);
+    }
+function blurEventGroup()
+{   if(this.value<=0||this.value>4)
+    {
+        document.getElementById("errorGroup").innerHTML = 'Value from 1 to 4 only';
+        this.style.border = "1px solid red";
+    }
+    else
+    {
+        document.getElementById("errorGroup").innerHTML = '';
+        this.style.border = "";
+    }
+}
+document.getElementById("group_size").addEventListener('blur', blurEventGroup);
+
+function blurEventRisk()
+{   if(this.value<=0||this.value>4)
+    {
+        document.getElementById("displayError").innerHTML = 'Value from 1 to 4 only';
+        this.style.border = "1px solid red";
+    }
+    else
+    {
+        document.getElementById("displayError").innerHTML = '';
+        this.style.border = "";
+    }
+}
+document.getElementById("risk").addEventListener('blur', blurEventRisk);
+
+function blurEventPrev()
+{   if(this.value<=0||this.value>10)
+    {
+        document.getElementById("errorPrev").innerHTML = 'Value from 1 to 10 only';
+        this.style.border = "1px solid red";
+    }
+    else
+    {
+        document.getElementById("errorPrev").innerHTML = '';
+        this.style.border = "";
+    }
+}
+document.getElementById("prev_duration").addEventListener('blur', blurEventPrev);
+
+
+function blurEventAge()
+{   if(this.value<=0||this.value>10)
+    {
+        document.getElementById("errorAge").innerHTML = 'Value from 1 to 15 only';
+        this.style.border = "1px solid red";
+    }
+    else
+    {
+        document.getElementById("errorAge").innerHTML = '';
+        this.style.border = "";
+    }
+}
+document.getElementById("car_age").addEventListener('blur', blurEventAge);
+
+function blurEventLoc()
+{   if(this.value.toString().length!=5)
+    {
+        document.getElementById("errorLoc").innerHTML = 'Check Pin Code';
+        this.style.border = "1px solid red";
+    }
+    else
+    {
+        document.getElementById("errorLoc").innerHTML = '';
+        this.style.border = "";
+    }
+}
+document.getElementById("location").addEventListener('blur', blurEventLoc);
+
+function blurEventYoung()
+{   var y=   document.getElementById("young_age").value;
+    var e=   document.getElementById("elder_age").value;
+    if(y>=e&&(e>0))
+    {
+        document.getElementById("errorYoung").innerHTML = 'Check Youngest and Eldest Ages';
+        this.style.border = "1px solid red";
+    }
+    else
+    {
+        document.getElementById("errorYoung").innerHTML = '';
+        this.style.border = "";
+    }
+}
+document.getElementById("elder_age").addEventListener('blur', blurEventYoung);
+document.getElementById("young_age").addEventListener('blur', blurEventYoung);
+
+
+ const $tableID = $('#table');
+ const $BTN = $('#export-btn');
+ const $EXPORT = $('#export');
+
+ const newTr = `
+<tr class="hide">
+    <td class="pt-3-half">
+      <select id="A" style="height:35px;width:80px" class="form-control" required>
+           <option  value='1'>1</option>
+           <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+            <option value='7'>7</option>
+            <option value='8'>8</option>
+        </select>
+    </td>
+    <td class="pt-3-half">
+        <select style="height:35px;width:80px" class="form-control" required>
+           <option  value='1'>1</option>
+           <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+            <option value='7'>7</option>
+            <option value='8'>8</option>
+        </select>
+    </td>
+    <td class="pt-3-half" >
+        <select style="height:35px;width:80px" class="form-control" required>
+           <option  value='1'>1</option>
+           <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+            <option value='7'>7</option>
+            <option value='8'>8</option>
+        </select>
+    </td>
+    <td class="pt-3-half" >
+        <select style="height:35px;width:80px" class="form-control" required>
+           <option  value='1'>1</option>
+           <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+            <option value='7'>7</option>
+            <option value='8'>8</option>
+        </select>
+    </td>
+    <td class="pt-3-half">
+        <select style="height:35px;width:80px" class="form-control" required>
+           <option  value='1'>1</option>
+           <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+            <option value='7'>7</option>
+            <option value='8'>8</option>
+        </select>
+     </td>
+    <td class="pt-3-half">
+        <select style="height:35px;width:80px" class="form-control" required>
+           <option  value='1'>1</option>
+           <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+            <option value='7'>7</option>
+            <option value='8'>8</option>
+        </select>
+    </td>
+    <td class="pt-3-half" >
+        <select style="height:35px;width:80px" class="form-control" required>
+           <option  value='1'>1</option>
+           <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+            <option value='7'>7</option>
+            <option value='8'>8</option>
+        </select>
+    </td>
+    <td class="pt-3-half">
+        <select style="height:35px;width:80px" class="form-control" required>
+           <option  value='1'>1</option>
+           <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+            <option value='7'>7</option>
+            <option value='8'>8</option>
+        </select>
+      </td>
+  <td>
+    <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light">Remove</button></span>
+  </td>
+</tr>`;
+
+ $('.table-add').on('click', 'i', () => {
+
+   const $clone = $tableID.find('tbody tr').last().clone(true).removeClass('hide table-line');
+
+   if ($tableID.find('tbody tr').length === 0) {
+
+     $('tbody').append(newTr);
+   }
+
+   $tableID.find('table').append($clone);
+ });
+
+ $tableID.on('click', '.table-remove', function () {
+
+   $(this).parents('tr').detach();
+ });
+
+ $tableID.on('click', '.table-up', function () {
+
+   const $row = $(this).parents('tr');
+
+   if ($row.index() === 0) {
+     return;
+   }
+
+   $row.prev().before($row.get(0));
+ });
+
+ $tableID.on('click', '.table-down', function () {
+
+   const $row = $(this).parents('tr');
+   $row.next().after($row.get(0));
+ });
+
+
+</script>
+
+{% endblock %}

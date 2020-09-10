@@ -1,0 +1,64 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/css/mdb.min.css" rel="stylesheet">
+
+
+<div class="card card-cascade">
+
+  <!-- Card content -->
+  <div class="card-body card-body-cascade text-center">
+
+    <!-- Title -->
+    <h4 class="card-title"><strong>Confirm Quote Details</strong></h4>
+    <!-- Subtitle -->
+      <h6 class="font-weight-bold indigo-text py-2">Customer ID</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.customer_id}}</p>
+      <h6 class="font-weight-bold indigo-text py-2">State</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.state}}</p>
+      <h6 class="font-weight-bold indigo-text py-2">Shopping ID</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.shop_id}}</p>
+    <h6 class="font-weight-bold indigo-text py-2">Location Pin Code</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.location}}</p>
+      <h6 class="font-weight-bold indigo-text py-2">Group Size</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.group_size}}</p>
+      <h6 class="font-weight-bold indigo-text py-2">Car Age</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.car_age}}</p>
+       <h6 class="font-weight-bold indigo-text py-2">Car Age</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.car_value}}</p>
+    <h6 class="font-weight-bold indigo-text py-2">Married..?</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.married}}</p>
+       <h6 class="font-weight-bold indigo-text py-2">Younger Age</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.young_age}}</p>
+
+       <h6 class="font-weight-bold indigo-text py-2">Elder Age</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.elder_age}}</p>
+
+    <h6 class="font-weight-bold indigo-text py-2">Risk Factor</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.risk}}</p>
+
+    <h6 class="font-weight-bold indigo-text py-2">Duration With Previous Insurancer</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.prev_duration}}</p>
+
+         <h6 class="font-weight-bold indigo-text py-2">Price</h6>
+    <!-- Text -->
+    <p class="card-text">{{context.price}}</p>
+    <button type="submit" class="btn btn-primary">Edit</button>
+   <button type="submit" class="btn btn-primary">Confirm</button>
+
+  </div>
+
+</div>
+{% endblock %}
