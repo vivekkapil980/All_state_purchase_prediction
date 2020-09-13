@@ -1,3 +1,4 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "python.pythonPath": "c:\\Users\\vivek\\Desktop\\Data Science\\All_state_purchase_prediction\\All_state_purchase_prediction\\Scripts\\python.exe"
 }
