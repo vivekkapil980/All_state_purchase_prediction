@@ -1,7 +1,272 @@
 {% extends 'Training/index.html' %}
 {% load static %}
 {% block content %}
-<h1>Analysis Page</h1>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<div class="row">
+    <div class="col-1">
+    </div>
+    <div class="col-10">
+        <h1>Analysis Page</h1>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Choose Option</label>
+                    <select class="form-control" style="height:35px" onclick="barGraph();lineGraph();Graph3();Graph2();" id="option"  name="option" required>
+                        <option value='-1'>Chose Option</option>
+                        <option value='0'>Risk factor</option>
+                        <option value='1'>Married</option>
+                        <option value='3'>Home Owner</option>
+                        <option value='5'>Group Size</option>
+                        <option value='7'>Car Value</option>
+                        <option value='10'>C Previous</option>
+                        <option value='11'>Previous Duration</option>
+                        <option value='12'>A</option>
+                        <option value='13'>B</option>
+                        <option value='14'>C</option>
+                        <option value='15'>D</option>
+                        <option value='16'>E</option>
+                        <option value='17'>F</option>
+                        <option value='18'>G</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <div class="row">
+            <div class="col-6">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="col-6">
+                <canvas id="myChart1"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <canvas id="myChart2"></canvas>
+            </div>
+            <div class="col-6">
+                <canvas id="myChart3"></canvas>
+            </div>
+        </div>
+
+
+
+
+        <script type="text/javascript" src="lib.js"></script>
+        <script>
+            function barGraph(){
+                var mylist = {{context|safe}};
+                var option = document.getElementById("option").value;
+                for(i = 0; i < mylist.length; i++){
+                    if(i==option)
+                    {
+                        var labels=mylist[i]['label'];
+                        var data=mylist[i]['data'];
+                        var title=mylist[i]['title']+' Bar Graph';
+                    }
+                };
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'bar',
+
+                    // The data for our dataset
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'My First dataset',
+                            backgroundColor: ["#8e5ea2","#3cba9f","#e8c3b9","#3e95cd", "#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840"],
+                            borderColor: 'rgb(255, 99, 132)',
+                            data:data
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {
+                          xAxes: [{ stacked: false }],
+                          yAxes: [{
+                            stacked: false,
+                            ticks: {
+                              beginAtZero: true,
+                            },
+                          }],
+                        title: {
+                            display: true,
+                            text: title
+                          },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+
+
+            function lineGraph(){
+                var mylist = {{context|safe}};
+                var option = document.getElementById("option").value;
+                for(i = 0; i < mylist.length; i++){
+                    if(i==option)
+                    {
+                        var labels=mylist[i]['label'];
+                        var data=mylist[i]['data'];
+                        var title=mylist[i]['title']+' Line Graph';
+                    }
+                };
+                var ctx = document.getElementById('myChart1').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+
+                    // The data for our dataset
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'My First dataset',
+                            backgroundColor: ["#3cba9f","#e8c3b9","#c45850","#3e95cd","#3e95cd", "#8e5ea2", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840"],
+                            borderColor: 'rgb(255, 99, 132)',
+                            data:data
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {
+                          xAxes: [{ stacked: false }],
+                          yAxes: [{
+                            stacked: false,
+                            ticks: {
+                              beginAtZero: true,
+                            },
+                          }],
+                        title: {
+                            display: true,
+                            text: title
+                          },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+
+            function Graph3(){
+                var mylist = {{context|safe}};
+                var option = document.getElementById("option").value;
+                for(i = 0; i < mylist.length; i++){
+                    if(i==option)
+                    {
+                        var labels=mylist[i]['label'];
+                        var data=mylist[i]['data'];
+                        var title=mylist[i]['title']+' Doughnut Graph';
+                    }
+                };
+                var ctx = document.getElementById('myChart2').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'doughnut',
+
+                    // The data for our dataset
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'My First dataset',
+                            backgroundColor: ["#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba9f","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840"],
+                            borderColor: 'rgb(255, 99, 132)',
+                            data:data
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {
+                          xAxes: [{ stacked: false }],
+                          yAxes: [{
+                            stacked: false,
+                            ticks: {
+                              beginAtZero: true,
+                            },
+                          }],
+                        title: {
+                            display: true,
+                            text: title
+                          },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+
+
+            function Graph2(){
+                var mylist = {{context|safe}};
+                var option = document.getElementById("option").value;
+                for(i = 0; i < mylist.length; i++){
+                    if(i==option)
+                    {
+                        var labels=mylist[i]['label'];
+                        var data=mylist[i]['data'];
+                        var title=mylist[i]['title']+' Pie chart';
+                    }
+                };
+                var ctx = document.getElementById('myChart3').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'pie',
+
+                    // The data for our dataset
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'My First dataset',
+                            backgroundColor: ["#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840","#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#3e95cd", "#8e5ea2","#3cba8f","#e8c3b7","#c45840"],
+                            borderColor: 'rgb(255, 99, 132)',
+                            data:data
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {
+                          xAxes: [{ stacked: false }],
+                          yAxes: [{
+                            stacked: false,
+                            ticks: {
+                              beginAtZero: true,
+                            },
+                          }],
+                        title: {
+                            display: true,
+                            text: title
+                          },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+
+        </script>
+
+    </div>
+    <div class="col-1">
+    </div>
+</div>
 
 
 
