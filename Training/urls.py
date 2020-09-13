@@ -4,6 +4,7 @@ from . import views
 
 app_name="training"
 urlpatterns = [
-    path('', views.Home_Page, name="main_page"),
-    path('Test/', views.Test, name="test"),
+    path('main/', views.Home_Page,name="main_page"),
+    path('test/', views.Test,name="test"),
+    path('analysis/', views.pie_chart,name="analysis"),
 ]
