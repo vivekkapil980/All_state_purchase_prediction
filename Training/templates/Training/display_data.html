@@ -1,63 +1,156 @@
-{% extends 'home.html' %}
+{% extends 'Training/index.html' %}
 {% load static %}
 {% block content %}
- <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/css/mdb.min.css" rel="stylesheet">
-
-
 <div class="card card-cascade">
 
-  <!-- Card content -->
   <div class="card-body card-body-cascade text-center">
 
-    <!-- Title -->
-    <h4 class="card-title"><strong>Confirm Quote Details</strong></h4>
-    <!-- Subtitle -->
-      <h6 class="font-weight-bold indigo-text py-2">Customer ID</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.customer_id}}</p>
-      <h6 class="font-weight-bold indigo-text py-2">State</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.state}}</p>
-      <h6 class="font-weight-bold indigo-text py-2">Shopping ID</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.shop_id}}</p>
-    <h6 class="font-weight-bold indigo-text py-2">Location Pin Code</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.location}}</p>
-      <h6 class="font-weight-bold indigo-text py-2">Group Size</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.group_size}}</p>
-      <h6 class="font-weight-bold indigo-text py-2">Car Age</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.car_age}}</p>
-       <h6 class="font-weight-bold indigo-text py-2">Car Age</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.car_value}}</p>
-    <h6 class="font-weight-bold indigo-text py-2">Married..?</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.married}}</p>
-       <h6 class="font-weight-bold indigo-text py-2">Younger Age</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.young_age}}</p>
+    <h1 class="card-title" style="color:#3EC1D5"><strong>Customer Details</strong></h1>
 
-       <h6 class="font-weight-bold indigo-text py-2">Elder Age</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.elder_age}}</p>
+    <div class="row">
+      <div class="col-2 text-center">
+      </div>
+      <div class="col-4 text-center">
+        <h6 class="font-weight-bold">Customer ID</h6>
+        <p class="card-text">{{context.customer_id}}</p>
+      </div>
+      <div class="col-4 text-center">
+        <h6 class="font-weight-bold">State</h6>
+        <p class="card-text">{{context.state}}</p>
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-2 text-center">
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold">Shopping ID</h6>    
+        <p class="card-text">{{context.shop_id}}</p>
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold">Location Pin Code</h6>    
+        <p class="card-text">{{context.location}}</p>
+      </div>
+    </div>
 
-    <h6 class="font-weight-bold indigo-text py-2">Risk Factor</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.risk}}</p>
+    <div class="row">
+      <div class="col-2 text-center">
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold indigo-text py-2">Group Size</h6>    
+        <p class="card-text">{{context.group_size}}</p>
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold indigo-text py-2">Car Age</h6>    
+        <p class="card-text">{{context.car_age}}</p>
+      </div>
+    </div>
 
-    <h6 class="font-weight-bold indigo-text py-2">Duration With Previous Insurancer</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.prev_duration}}</p>
+    <div class="row">
+      <div class="col-2 text-center">
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold indigo-text py-2">Car Value</h6>    
+        <p class="card-text">{{context.car_value}}</p>
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold indigo-text py-2">Married..?</h6>    
+        <p class="card-text">{{context.married}}</p>
+      </div>
+    </div>
 
-         <h6 class="font-weight-bold indigo-text py-2">Price</h6>
-    <!-- Text -->
-    <p class="card-text">{{context.price}}</p>
-    <button type="submit" class="btn btn-primary">Edit</button>
-   <button type="submit" class="btn btn-primary">Confirm</button>
+    <div class="row">
+      <div class="col-2 text-center">
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold indigo-text py-2">Younger Age</h6>    
+        <p class="card-text">{{context.young_age}}</p>
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold indigo-text py-2">Elder Age</h6>    
+        <p class="card-text">{{context.elder_age}}</p>
+      </div>
+    </div>
+      
+    <div class="row">
+      <div class="col-2 text-center">
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold indigo-text py-2">Risk Factor</h6>    
+        <p class="card-text">{{context.risk}}</p>
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold indigo-text py-2">Duration With Previous Insurancer</h6>    
+        <p class="card-text">{{context.prev_duration}}</p>
+      </div>
+    </div>
+    
 
+    <div class="row">
+      <div class="col-2 text-center">
+      </div>
+      <div class="col-4">
+        <h6 class="font-weight-bold indigo-text py-2">Price</h6>    
+        <p class="card-text">{{context.price}}</p>
+      </div>
+      <div class="col-4">
+      </div>
+    </div>  
+
+    <div class="row">
+    
+      <div class="col-4 text-center">
+      </div>
+      <div class="col-4 text-center">      
+          <h1 class="card-title text-center" style="color:#3EC1D5"><strong>Quote Details</strong></h1>
+          <table class="table table-striped text-center" >
+            <thead>
+              <tr>
+                <th scope="col">A</th>
+                <th scope="col">B</th>
+                <th scope="col">C</th>
+                <th scope="col">D</th>
+                <th scope="col">E</th>
+                <th scope="col">F</th>
+                <th scope="col">G</th>
+              </tr>              
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">{{ans.0}}</td>
+                <td scope="row">{{ans.1}}</td>
+                <td scope="row">{{ans.2}}</td>
+                <td scope="row">{{ans.3}}</td>
+                <td scope="row">{{ans.4}}</td>
+                <td scope="row">{{ans.5}}</td>
+                <td scope="row">{{ans.6}}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      <div class="col-4">
+      </div>
+    </div>
+
+
+
+  </div>
+  <div class="row">
+  <div class="col-4">
+      </div>
+      <div class="col-4 text-center">
+      <a class="ready-btn right-btn page-scroll" href="{% url 'training:analysis' %}">Check Analysis</a>
+      </div>
+  
+  </div>
+  <div class="row">
+  <div class="col-4">
+  </div>
+  <div class="row">
+  </div>
+  <div class="row">
+  </div>
+  <div class="row">
   </div>
 
 </div>

@@ -6,7 +6,7 @@
 
     </div>
     <div class="col-8">
-        <h1>Get Quote</h1>
+         <h1 style="color:#3EC1D5"><strong>Get Quote</strong></h1>
         <form method="post" action="{% url 'training:main_page' %}">
             {% csrf_token %}
             <input type="hidden" name='table' id="hiddentable">
@@ -30,10 +30,10 @@
             <div class="row">
                 <div class="col-6">
                     <label>Choose State</label>
-                    <select class="form-control" name="state" style="height:35px" required>
-                        <option value='KL'>KL</option>
-                        <option value='FL'>FL</option>
-                        <option value='None'>Something else here</option>
+                    <select class="form-control" name="state" id="state" style="height:35px" required>
+                        {% for i in states %}
+                            <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-6">
@@ -252,22 +252,7 @@
     }
     document.getElementById("location").addEventListener('blur', blurEventLoc);
 
-    function blurEventYoung() {
-        var y = document.getElementById("young_age").value;
-        var e = document.getElementById("elder_age").value;
-        if (y >= e && (e > 0)) {
-            document.getElementById("errorYoung").innerHTML = 'Check Youngest and Eldest Ages';
-            this.style.border = "1px solid red";
-        }
-        else {
-            document.getElementById("errorYoung").innerHTML = '';
-            this.style.border = "";
-        }
-    }
-    document.getElementById("elder_age").addEventListener('blur', blurEventYoung);
-    document.getElementById("young_age").addEventListener('blur', blurEventYoung);
-
-
+    
     const $tableID = $('#table');
     const $BTN = $('#export-btn');
     const $EXPORT = $('#export');
@@ -279,33 +264,64 @@
            <option value='0'>0</option>
            <option  value='1'>1</option>
            <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option  value='4'>4</option>
+           <option value='5'>5</option>
+           <option value='6'>6</option>
+           <option  value='7'>7</option>
+           <option value='8'>8</option>
         </select>
     </td>
     <td class="pt-3-half">
         <select class="B" style="height:35px;width:80px" class="form-control" required>
            <option value='0'>0</option>
            <option  value='1'>1</option>
+           <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option  value='4'>4</option>
+           <option value='5'>5</option>
+           <option value='6'>6</option>
+           <option  value='7'>7</option>
+           <option value='8'>8</option>
         </select>
     </td>
     <td class="pt-3-half" >
         <select class="C" style="height:35px;width:80px" class="form-control" required>
+           <option value='0'>0</option>
            <option  value='1'>1</option>
            <option value='2'>2</option>
            <option value='3'>3</option>
-           <option value='4'>4</option>
+           <option  value='4'>4</option>
+           <option value='5'>5</option>
+           <option value='6'>6</option>
+           <option  value='7'>7</option>
+           <option value='8'>8</option>
         </select>
     </td>
     <td class="pt-3-half" >
         <select class="D" style="height:35px;width:80px" class="form-control" required>
+           <option value='0'>0</option>
            <option  value='1'>1</option>
            <option value='2'>2</option>
            <option value='3'>3</option>
+           <option  value='4'>4</option>
+           <option value='5'>5</option>
+           <option value='6'>6</option>
+           <option  value='7'>7</option>
+           <option value='8'>8</option>
         </select>
     </td>
     <td class="pt-3-half">
         <select class="E" style="height:35px;width:80px" class="form-control" required>
            <option value='0'>0</option>
            <option  value='1'>1</option>
+           <option value='2'>2</option>
+           <option value='3'>3</option>
+           <option  value='4'>4</option>
+           <option value='5'>5</option>
+           <option value='6'>6</option>
+           <option  value='7'>7</option>
+           <option value='8'>8</option>
         </select>
      </td>
     <td class="pt-3-half">
@@ -314,14 +330,24 @@
            <option  value='1'>1</option>
            <option value='2'>2</option>
            <option value='3'>3</option>
+           <option  value='4'>4</option>
+           <option value='5'>5</option>
+           <option value='6'>6</option>
+           <option  value='7'>7</option>
+           <option value='8'>8</option>
         </select>
     </td>
     <td class="pt-3-half form-control" >
         <select class="G" style="height:35px;width:80px" class="form-control" required>
+           <option value='0'>0</option>
            <option  value='1'>1</option>
            <option value='2'>2</option>
            <option value='3'>3</option>
-           <option value='4'>4</option>
+           <option  value='4'>4</option>
+           <option value='5'>5</option>
+           <option value='6'>6</option>
+           <option  value='7'>7</option>
+           <option value='8'>8</option>
         </select>
     </td>
   <td>

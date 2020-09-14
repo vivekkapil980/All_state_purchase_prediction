@@ -157,12 +157,11 @@ def pie_chart(request):
 def dashboard(request):
     pie_chart()
     return render(request, 'Training/analysis.html', {})
-
-# Create your views here.
-
+    
 def Home_Page(request):
     context = {}
     quotes = []
+    states=['NE', 'WY', 'OH', 'OK', 'AR', 'OR', 'MD', 'MT', 'CT', 'UT', 'GA', 'IN', 'FL', 'TN', 'DC', 'MS', 'CO', 'RI', 'NV', 'KY', 'WA', 'NH', 'MO', 'PA', 'DE', 'ME', 'AL', 'KS', 'SD', 'WI', 'ND', 'NY', 'NM', 'ID', 'IA', 'WV']
     if request.method=='POST':
         context['customer_id']=request.POST.get('customer_id')
         context['state']=request.POST.get('state')
@@ -181,16 +180,16 @@ def Home_Page(request):
         table = json.loads(table)
         for i, row in enumerate(table):
             quotes.append(row)
-        print(context)
         # predict G
+        states=['NE', 'WY', 'OH', 'OK', 'AR', 'OR', 'MD', 'MT', 'CT', 'UT', 'GA', 'IN', 'FL', 'TN', 'DC', 'MS', 'CO', 'RI', 'NV', 'KY', 'WA', 'NH', 'MO', 'PA', 'DE', 'ME', 'AL', 'KS', 'SD', 'WI', 'ND', 'NY', 'NM', 'ID', 'IA', 'WV']
         with concurrent.futures.ThreadPoolExecutor() as executor:
             process = executor.submit(predict_G,context['state'], quotes[-1][-1], quotes[-2][-1])
             G = process.result()
         ans = quotes[-1][:6] + [G[0]]
-        print(ans)
-        pprint(quotes)
-        return render(request, 'Training/display_data.html', {'context': context})
-    return render(request,'Training/mainpage.html',{'context':context})
+        print('ans is ',ans)
+        ans[len(ans)-1]=int(ans[len(ans)-1])
+        return render(request, 'Training/display_data.html', {'context': context,'states':states,'ans':ans})
+    return render(request,'Training/mainpage.html',{'context':context,'states':states})
 
 
 def Test(request):
