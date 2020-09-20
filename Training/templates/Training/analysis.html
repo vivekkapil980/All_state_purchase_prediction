@@ -7,260 +7,184 @@
     </div>
     <div class="col-10">
         <h1>Analysis Page</h1>
-        <p>{{context|safe}}</p>
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
                     <label>Choose Option</label>
-                    <select class="form-control" style="height:35px" onclick="barGraph();lineGraph();Graph3();Graph2();"
-                        id="option" name="option" required>
+                    <select class="form-control" style="height:35px" onchange="barGraph()" id="option" name="option"
+                        required>
                         <option value='-1'>Chose Option</option>
-                        <option value='0'>Risk factor</option>
-                        <option value='1'>Married</option>
-                        <option value='3'>Home Owner</option>
-                        <option value='5'>Group Size</option>
-                        <option value='7'>Car Value</option>
-                        <option value='10'>C Previous</option>
-                        <option value='11'>Previous Duration</option>
-                        <option value='12'>A</option>
-                        <option value='13'>B</option>
-                        <option value='14'>C</option>
-                        <option value='15'>D</option>
-                        <option value='16'>E</option>
-                        <option value='17'>F</option>
-                        <option value='18'>G</option>
+                        {% comment %} <option value='risk_factor'>Risk factor</option> {% endcomment %}
+                        <option value='married_couple'>Married</option>
+                        {% comment %} <option value='state'>State</option> {% endcomment %}
+                        <option value='homeowner'>Home Owner</option>
+                        <option value='group_size'>Group Size</option>
+                        {% comment %} <option value='car_age'>Car Age</option> {% endcomment %}
+                        <option value='car_value'>Car Value</option>
+                        <option value='C_previous'>C Previous</option>
+                        {% comment %} <option value='age_youngest'>Youngest Age</option> {% endcomment %}
+                        {% comment %} <option value='age_oldest'>Oldest Age</option> {% endcomment %}
+                        <option value='duration_previous'>Previous Duration</option>
+                        <option value='A'>A</option>
+                        <option value='B'>B</option>
+                        <option value='C'>C</option>
+                        <option value='D'>D</option>
+                        <option value='E'>E</option>
+                        <option value='F'>F</option>
+                        <option value='G'>G</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Dependant Variable</label>
+                    <select class="form-control" style="height:35px" onchange="barGraph()" id="variable" name="option"
+                        required>
+                        <option value='A'>A</option>
+                        <option value='B'>B</option>
+                        <option value='C'>C</option>
+                        <option value='D'>D</option>
+                        <option value='E'>E</option>
+                        <option value='F'>F</option>
+                        <option value='G'>G</option>
                     </select>
                 </div>
             </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-        <div class="row">
-            <div class="col-6">
-                <canvas id="myChart"></canvas>
-            </div>
-            <div class="col-6">
-                <canvas id="myChart1"></canvas>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <canvas id="myChart2"></canvas>
-            </div>
-            <div class="col-6">
-                <canvas id="myChart3"></canvas>
-            </div>
-        </div>
-
-
+        <canvas id="Chart1"></canvas>
 
         <script>
+
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
             function barGraph() {
-                var mylist = $('#my-data').data();
-                console.log(mylist);
-                var option = document.getElementById("option").value;
-                for (i = 0; i < mylist.length; i++) {
-                    if (i == option) {
-                        var labels = mylist[i]['label'];
-                        var data = mylist[i]['data'];
-                        var title = mylist[i]['title'] + ' Bar Graph';
-                    }
+                var myList = {{ context| safe }};
+            var size = new Map([
+                ['A', 3],
+                ['B', 2],
+                ['C', 4],
+                ['D', 3],
+                ['E', 2],
+                ['F', 4],
+                ['G', 4],
+
+            ]);
+            var option = document.getElementById('option').value;
+            var dependant = document.getElementById('variable').value;
+            var data = myList[option][dependant];
+            console.log(data)
+            var labels = []
+            var values = new Array(size.get(dependant));
+            for (var i = 0; i < values.length; i++) {
+              values[i] = [];
+            }
+            var inside_labels = []
+            for (var row in data) {
+                var obj = data[row];
+                labels.push(row);
+                var i = 0;
+                for (var col in obj){
+                    inside_labels.push(col);
+                    values[i].push(data[row][col]);
+                    i++;
+                }
+            }
+            var dataset = [];
+            for (var i in values) {
+                var obj = {};
+                obj['data'] = values[i];
+                obj['backgroundColor'] = getRandomColor();
+                //obj['barThickness'] = 1;
+                //obj['maxbarThickness'] = 1;
+                dataset.push(obj);
+            }
+            console.log({labels,values, dataset})
+            var ctx = document.getElementById("Chart1");
+            var barOptions_stacked = {
+                tooltips: {
+                    enabled: true
+                },
+                hover: {
+                    animationDuration: 0
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontFamily: "'Open Sans Bold', sans-serif",
+                            fontSize: 11,
+
+                        },
+                        scaleLabel: {
+                            display: false
+                        },
+                        gridLines: {
+                        },
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        barThickness : 30,
+                        gridLines: {
+                            display: false,
+                            color: "#fff",
+                            zeroLineColor: "#fff",
+                            zeroLineWidth: 0
+                        },
+                        ticks: {
+                            fontFamily: "'Open Sans Bold', sans-serif",
+                            fontSize: 11
+                        },
+                        stacked: true
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                    {% comment %} animation: {
+                onComplete: function () {
+                    var chartInstance = this.chart;
+                    var ctx = chartInstance.ctx;
+                    ctx.textAlign = "center";
+                    ctx.font = "9px Open Sans";
+                    ctx.fillStyle = "#fff";
+
+                    Chart.helpers.each(this.data.datasets.forEach(function (dataset, i) {
+                        var meta = chartInstance.controller.getDatasetMeta(i);
+                        Chart.helpers.each(meta.data.forEach(function (bar, index) {
+                            data = dataset.data[index];
+                            if (i == 0) {
+                                ctx.fillText(data, 50, bar._model.y + 4);
+                            } else {
+                                ctx.fillText(data, bar._model.x - 25, bar._model.y + 4);
+                            }
+                        }), this)
+                    }), this);
+                }
+            },
+            {% endcomment %}
+
+            pointLabelFontFamily: "Quadon Extra Bold",
+                scaleFontFamily : "Quadon Extra Bold",
                 };
-                var ctx = document.getElementById('myChart').getContext('2d');
-                var chart = new Chart(ctx, {
-                    // The type of chart we want to create
-                    type: 'bar',
-
-                    // The data for our dataset
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'My First dataset',
-                            backgroundColor: ["#8e5ea2", "#3cba9f", "#e8c3b9", "#3e95cd", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840"],
-                            borderColor: 'rgb(255, 99, 132)',
-                            data: data
-                        }]
-                    },
-
-                    // Configuration options go here
-                    options: {
-                        xAxes: [{ stacked: false }],
-                        yAxes: [{
-                            stacked: false,
-                            ticks: {
-                                beginAtZero: true,
-                            },
-                        }],
-                        title: {
-                            display: true,
-                            text: title
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        }
-                    }
-                });
-            }
-
-
-            function lineGraph() {
-                var mylist = {{ context| safe
-            }};
-            var option = document.getElementById("option").value;
-            for (i = 0; i < mylist.length; i++) {
-                if (i == option) {
-                    var labels = mylist[i]['label'];
-                    var data = mylist[i]['data'];
-                    var title = mylist[i]['title'] + ' Line Graph';
-                }
-            };
-            var ctx = document.getElementById('myChart1').getContext('2d');
-            var chart = new Chart(ctx, {
-                // The type of chart we want to create
-                type: 'line',
-
-                // The data for our dataset
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'My First dataset',
-                        backgroundColor: ["#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#3e95cd", "#8e5ea2", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840"],
-                        borderColor: 'rgb(255, 99, 132)',
-                        data: data
-                    }]
-                },
-
-                // Configuration options go here
-                options: {
-                    xAxes: [{ stacked: false }],
-                    yAxes: [{
-                        stacked: false,
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                    }],
-                    title: {
-                        display: true,
-                        text: title
-                    },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
-            }
-
-            function Graph3() {
-                var mylist = {{ context| safe
-            }};
-            var option = document.getElementById("option").value;
-            for (i = 0; i < mylist.length; i++) {
-                if (i == option) {
-                    var labels = mylist[i]['label'];
-                    var data = mylist[i]['data'];
-                    var title = mylist[i]['title'] + ' Doughnut Graph';
-                }
-            };
-            var ctx = document.getElementById('myChart2').getContext('2d');
-            var chart = new Chart(ctx, {
-                // The type of chart we want to create
-                type: 'doughnut',
-
-                // The data for our dataset
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'My First dataset',
-                        backgroundColor: ["#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba9f", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840"],
-                        borderColor: 'rgb(255, 99, 132)',
-                        data: data
-                    }]
-                },
-
-                // Configuration options go here
-                options: {
-                    xAxes: [{ stacked: false }],
-                    yAxes: [{
-                        stacked: false,
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                    }],
-                    title: {
-                        display: true,
-                        text: title
-                    },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
-            }
-
-
-            function Graph2() {
-                var mylist = {{ context| safe
-            }};
-            var option = document.getElementById("option").value;
-            for (i = 0; i < mylist.length; i++) {
-                if (i == option) {
-                    var labels = mylist[i]['label'];
-                    var data = mylist[i]['data'];
-                    var title = mylist[i]['title'] + ' Pie chart';
-                }
-            };
-            var ctx = document.getElementById('myChart3').getContext('2d');
-            var chart = new Chart(ctx, {
-                // The type of chart we want to create
+            var myChart = new Chart(ctx, {
                 type: 'horizontalBar',
-
-                // The data for our dataset
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: 'My First dataset',
-                        backgroundColor: ["#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840", "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#3e95cd", "#8e5ea2", "#3cba8f", "#e8c3b7", "#c45840"],
-                        borderColor: 'rgb(255, 99, 132)',
-                        data: data
-                    }]
-                },
 
-                // Configuration options go here
-                options: {
-                    xAxes: [{ stacked: false }],
-                    yAxes: [{
-                        stacked: false,
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                    }],
-                    title: {
-                        display: true,
-                        text: title
-                    },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
+                    datasets: dataset,
+                },
+                options: barOptions_stacked,
             });
             }
-
         </script>
 
     </div>
