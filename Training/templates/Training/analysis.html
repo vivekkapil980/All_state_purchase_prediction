@@ -111,7 +111,20 @@
             var ctx = document.getElementById("Chart1");
             var barOptions_stacked = {
                 tooltips: {
-                    enabled: true
+                    enabled: true,
+                    mode: 'single',
+                    displayColors: false,
+                    callbacks: {
+                    label: function(tooltipItems, data) {
+                        var first = option + ": "+ parseInt(tooltipItems.index);
+                        var second = dependant +": "+ parseInt(inside_labels[tooltipItems.datasetIndex])
+                        var third = "count: " + tooltipItems.xLabel
+                        return  [first, second, third];
+                    },
+                    title: function(tooltipItem, data) {
+                        return;
+                    }
+                    }
                 },
                 hover: {
                     animationDuration: 0
