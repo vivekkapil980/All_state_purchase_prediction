@@ -87,8 +87,8 @@ def pie_chart(request):
     # second_index:  result columns [A,B,C,D,E,F,G]
     # third_index: value of first_column eg: shopping_pt has [3, 13] values
     # fourth_index: value of second_column i.e values of A, B.....G
-    # How to process this data?: first select first and second column value from drop down 
-    # and then directly use it inside dictionary to extract the values. then use two for loops to 
+    # How to process this data?: first select first and second column value from drop down
+    # and then directly use it inside dictionary to extract the values. then use two for loops to
     # access count values for every data point.
     '''
     train.check_for_update() #to detect any updation to training data
@@ -99,7 +99,7 @@ def pie_chart(request):
 def dashboard(request):
     pie_chart()
     return render(request, 'Training/analysis.html', {})
-    
+
 def Home_Page(request):
     context = {}
     quotes = []

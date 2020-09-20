@@ -11,17 +11,17 @@
             <div class="col-6">
                 <div class="form-group">
                     <label>Choose Option</label>
-                    <select class="form-control" style="height:35px" onchange="barGraph()"
-                        id="option" name="option" required>
+                    <select class="form-control" style="height:35px" onchange="barGraph()" id="option" name="option"
+                        required>
                         <option value='-1'>Chose Option</option>
                         {% comment %} <option value='risk_factor'>Risk factor</option> {% endcomment %}
                         <option value='married_couple'>Married</option>
                         {% comment %} <option value='state'>State</option> {% endcomment %}
                         <option value='homeowner'>Home Owner</option>
                         <option value='group_size'>Group Size</option>
-                        {% comment %} <option value='car_age'>Car Age</option>                        {% endcomment %}
+                        {% comment %} <option value='car_age'>Car Age</option> {% endcomment %}
                         <option value='car_value'>Car Value</option>
-                        <option value='C_previous'>C Previous</option>                   
+                        <option value='C_previous'>C Previous</option>
                         {% comment %} <option value='age_youngest'>Youngest Age</option> {% endcomment %}
                         {% comment %} <option value='age_oldest'>Oldest Age</option> {% endcomment %}
                         <option value='duration_previous'>Previous Duration</option>
@@ -39,8 +39,8 @@
             <div class="col-6">
                 <div class="form-group">
                     <label>Dependant Variable</label>
-                    <select class="form-control" style="height:35px" onchange="barGraph()"
-                        id="variable" name="option" required>
+                    <select class="form-control" style="height:35px" onchange="barGraph()" id="variable" name="option"
+                        required>
                         <option value='A'>A</option>
                         <option value='B'>B</option>
                         <option value='C'>C</option>
@@ -65,73 +65,128 @@
                     color += letters[Math.floor(Math.random() * 16)];
                 }
                 return color;
-                }
-            function barGraph() {           
-                var myList={{context|safe}};
-                var option=document.getElementById('option').value;
-                var dependant=document.getElementById('variable').value;
-                var data=myList[option][dependant];
-                var labels=[]
-                var values=[]
-                for (var row in data) {                    
-                    var obj=data[row];
-                    labels.push(row);
-                    var l=[];
-                    for(var col in obj)
-                    l.push(data[row][col]);
-                    values.push(l);
-                }
-                var dataset=[];
-                for(var i in values)
-                {
-                    var obj={};
-                    obj['data']=values[i];
-                    obj['backgroundColor']=getRandomColor();
-                    dataset.push(obj);
-                }
-                var myChart;
+            }
+            function barGraph() {
+                var myList = {{ context| safe }};
+            var size = new Map([
+                ['A', 3],
+                ['B', 2],
+                ['C', 4],
+                ['D', 3],
+                ['E', 2],
+                ['F', 4],
+                ['G', 4],
 
-                var ctx = document.getElementById("Chart1");
-                var barOptions_stacked = {
-                    tooltips: {
-                        enabled: false
+            ]);
+            var option = document.getElementById('option').value;
+            var dependant = document.getElementById('variable').value;
+            var data = myList[option][dependant];
+            console.log(data)
+            var labels = []
+            var values = new Array(size.get(dependant));
+            for (var i = 0; i < values.length; i++) {
+              values[i] = [];
+            }
+            var inside_labels = []
+            for (var row in data) {
+                var obj = data[row];
+                labels.push(row);
+                var i = 0;
+                for (var col in obj){
+                    inside_labels.push(col);
+                    values[i].push(data[row][col]);
+                    i++;
+                }
+            }
+            var dataset = [];
+            for (var i in values) {
+                var obj = {};
+                obj['data'] = values[i];
+                obj['backgroundColor'] = getRandomColor();
+                //obj['barThickness'] = 1;
+                //obj['maxbarThickness'] = 1;
+                dataset.push(obj);
+            }
+            console.log({labels,values, dataset})
+            var ctx = document.getElementById("Chart1");
+            var barOptions_stacked = {
+                tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    displayColors: false,
+                    callbacks: {
+                    label: function(tooltipItems, data) {
+                        var first = option + ": "+ parseInt(tooltipItems.index);
+                        var second = dependant +": "+ parseInt(inside_labels[tooltipItems.datasetIndex])
+                        var third = "count: " + tooltipItems.xLabel
+                        return  [first, second, third];
                     },
-                    hover :{
-                        animationDuration:0
-                    },
-                    scales: {
-                        xAxes: [{
-                            ticks: {
-                                beginAtZero:true,
-                                fontFamily: "'Open Sans Bold', sans-serif",
-                                fontSize:11
-                            },
-                            scaleLabel:{
-                                display:false
-                            },
-                            gridLines: {
-                            }, 
-                            stacked: true
-                        }],
-                        yAxes: [{
-                            gridLines: {
-                                display:false,
-                                color: "#fff",
-                                zeroLineColor: "#fff",
-                                zeroLineWidth: 0
-                            },
-                            ticks: {
-                                fontFamily: "'Open Sans Bold', sans-serif",
-                                fontSize:11
-                            },
-                            stacked: true
-                        }]
-                    },
-                    legend:{
-                        display:false
-                    },                    
-                    pointLabelFontFamily : "Quadon Extra Bold",
-                    scaleFontFamily : "Quadon Extra Bold",
+                    title: function(tooltipItem, data) {
+                        return;
+                    }
+                    }
+                },
+                hover: {
+                    animationDuration: 0
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontFamily: "'Open Sans Bold', sans-serif",
+                            fontSize: 11,
+
+                        },
+                        scaleLabel: {
+                            display: false
+                        },
+                        gridLines: {
+                        },
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        barThickness : 30,
+                        gridLines: {
+                            display: false,
+                            color: "#fff",
+                            zeroLineColor: "#fff",
+                            zeroLineWidth: 0
+                        },
+                        ticks: {
+                            fontFamily: "'Open Sans Bold', sans-serif",
+                            fontSize: 11
+                        },
+                        stacked: true
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                    {% comment %} animation: {
+                onComplete: function () {
+                    var chartInstance = this.chart;
+                    var ctx = chartInstance.ctx;
+                    ctx.textAlign = "center";
+                    ctx.font = "9px Open Sans";
+                    ctx.fillStyle = "#fff";
+
+                    Chart.helpers.each(this.data.datasets.forEach(function (dataset, i) {
+                        var meta = chartInstance.controller.getDatasetMeta(i);
+                        Chart.helpers.each(meta.data.forEach(function (bar, index) {
+                            data = dataset.data[index];
+                            if (i == 0) {
+                                ctx.fillText(data, 50, bar._model.y + 4);
+                            } else {
+                                ctx.fillText(data, bar._model.x - 25, bar._model.y + 4);
+                            }
+                        }), this)
+                    }), this);
+                }
+            },
+            {% endcomment %}
+
+            pointLabelFontFamily: "Quadon Extra Bold",
+                scaleFontFamily : "Quadon Extra Bold",
                 };
                   if(window.bar != undefined)
                     window.bar.destroy();
@@ -139,8 +194,8 @@
                 type: 'horizontalBar',
                 data: {
                     labels: labels,
-                    
-                    datasets:dataset,
+
+                    datasets: dataset,
                 },
                 options: barOptions_stacked,
             });
