@@ -97,6 +97,7 @@
                 ['G', 4],
 
             ]);
+            var colors=['rgb(68, 13, 84)','rgb(59, 82, 139)','rgb(34, 144, 140)','rgb(93, 200, 98)','rgb(253, 231,37)']
             var option = document.getElementById('option').value;
             var dependant = document.getElementById('variable').value;
             var type = document.getElementById('type').value;
@@ -142,7 +143,7 @@
             for (var i in values) {
                 var obj = {};
                 obj['data'] = values[i];
-                obj['backgroundColor'] = getRandomColor();
+                obj['backgroundColor'] =colors[parseInt(i)];
                 obj['label']=i;
                 dataset.push(obj);
             }
