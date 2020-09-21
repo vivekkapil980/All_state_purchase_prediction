@@ -125,7 +125,6 @@
             <div class="card">
                 <h3 class="card-header text-center font-weight-bold text-uppercase py-4">History</h3>
                 <div class="card-body">
-                <small><span style="color:red" id="errorTable">Enter atleast two rows</span></small>
                     <div id="table" class="table-editable">
                         <span class="table-add float-right"><a><i><input type="button"
                                         class="btn btn-info btn-rounded btn-sm my-0 waves-effect waves-light"
@@ -483,7 +482,7 @@
 <!-- Table Submit Script -->
 <script>
     function extract() {
-        
+
         var a = document.getElementsByClassName('A');
         var b = document.getElementsByClassName('B');
         var c = document.getElementsByClassName('C');
@@ -505,7 +504,7 @@
             rows = Array();
         }
         document.getElementById("hiddentable").value = JSON.stringify(table);
-        
+
     }
 </script>
 {% endblock %}
