@@ -8,15 +8,15 @@
     <div class="col-10">
         <h1>Analysis Page</h1>
         <div class="row">
-            <div class="col-6">
+            <div class="col-4">
                 <div class="form-group">
-                    <label>Choose Option</label>
+                    <label>Aggregated By</label>
                     <select class="form-control" style="height:35px" onchange="barGraph()" id="option" name="option"
                         required>
                         <option value='-1'>Chose Option</option>
                         {% comment %} <option value='risk_factor'>Risk factor</option> {% endcomment %}
                         <option value='married_couple'>Married</option>
-                        {% comment %} <option value='state'>State</option> {% endcomment %}
+                        <option value='state'>State</option>
                         <option value='homeowner'>Home Owner</option>
                         <option value='group_size'>Group Size</option>
                         {% comment %} <option value='car_age'>Car Age</option> {% endcomment %}
@@ -35,8 +35,8 @@
                     </select>
                 </div>
             </div>
-
-            <div class="col-6">
+           
+            <div class="col-4">
                 <div class="form-group">
                     <label>Dependant Variable</label>
                     <select class="form-control" style="height:35px" onchange="barGraph()" id="variable" name="option"
@@ -51,11 +51,29 @@
                     </select>
                 </div>
             </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Type</label>
+                    <select class="form-control" style="height:35px" onchange="barGraph()" id="type" name="type"
+                        required>
+                        <option value='count'>Count</option>
+                        <option value='perc'>Percentage</option>
+                    </select>
+                </div>
+            </div>
         </div>
-
+         
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-        <canvas id="Chart1"></canvas>
-
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-8 text-center" id="chart1" style="height: 350px;width:650px">
+                <canvas id="Chart1"></canvas>
+            </div>
+            <div class="col-2">
+            </div>
+        </div>
+        
         <script>
 
             function getRandomColor() {
@@ -67,6 +85,7 @@
                 return color;
             }
             function barGraph() {
+                
                 var myList = {{ context| safe }};
             var size = new Map([
                 ['A', 3],
@@ -80,34 +99,55 @@
             ]);
             var option = document.getElementById('option').value;
             var dependant = document.getElementById('variable').value;
+            var type = document.getElementById('type').value;
             var data = myList[option][dependant];
-            console.log(data)
             var labels = []
             var values = new Array(size.get(dependant));
             for (var i = 0; i < values.length; i++) {
               values[i] = [];
             }
             var inside_labels = []
-            for (var row in data) {
-                var obj = data[row];
-                labels.push(row);
-                var i = 0;
-                for (var col in obj){
-                    inside_labels.push(col);
-                    values[i].push(data[row][col]);
-                    i++;
+
+            if(type=="count"){
+                for (var row in data) {
+                    var obj = data[row];
+                    labels.push(row);
+                    var i = 0;
+                    for (var col in obj){
+                        inside_labels.push(col);
+                        values[i].push(data[row][col]);
+                        i++;
+                    }
                 }
             }
+            else{
+                for (var row in data) {
+                    var obj = data[row];
+                    labels.push(row);
+                    var i = 0;
+                    var sum=0;
+                    for (var col in obj)
+                        sum+=data[row][col];
+                    for (var col in obj){
+                        inside_labels.push(col);
+                        values[i].push(Math.round((data[row][col])/sum*100));
+                        i++;
+                    }
+                }
+            }
+
+            
+
             var dataset = [];
             for (var i in values) {
                 var obj = {};
                 obj['data'] = values[i];
                 obj['backgroundColor'] = getRandomColor();
-                //obj['barThickness'] = 1;
-                //obj['maxbarThickness'] = 1;
+                obj['label']=i;
                 dataset.push(obj);
             }
-            console.log({labels,values, dataset})
+
+            document.getElementById("chart1").style.height = labels.length * 80+'px';
             var ctx = document.getElementById("Chart1");
             var barOptions_stacked = {
                 tooltips: {
@@ -118,7 +158,11 @@
                     label: function(tooltipItems, data) {
                         var first = option + ": "+ parseInt(tooltipItems.index);
                         var second = dependant +": "+ parseInt(inside_labels[tooltipItems.datasetIndex])
-                        var third = "count: " + tooltipItems.xLabel
+                        if(type=="count")
+                        var third = "count: " + tooltipItems.xLabel;
+                        else
+                        var third = "Percentage: " + tooltipItems.xLabel +'%';
+                        
                         return  [first, second, third];
                     },
                     title: function(tooltipItem, data) {
@@ -145,7 +189,9 @@
                         stacked: true
                     }],
                     yAxes: [{
-                        barThickness : 30,
+                        barPercentage: 0.9,
+                        categoryPercentage: 0.8,
+                        barThickness : 45,
                         gridLines: {
                             display: false,
                             color: "#fff",
@@ -161,38 +207,20 @@
                 },
                 legend: {
                     display: false
-                },
-                    {% comment %} animation: {
-                onComplete: function () {
-                    var chartInstance = this.chart;
-                    var ctx = chartInstance.ctx;
-                    ctx.textAlign = "center";
-                    ctx.font = "9px Open Sans";
-                    ctx.fillStyle = "#fff";
-
-                    Chart.helpers.each(this.data.datasets.forEach(function (dataset, i) {
-                        var meta = chartInstance.controller.getDatasetMeta(i);
-                        Chart.helpers.each(meta.data.forEach(function (bar, index) {
-                            data = dataset.data[index];
-                            if (i == 0) {
-                                ctx.fillText(data, 50, bar._model.y + 4);
-                            } else {
-                                ctx.fillText(data, bar._model.x - 25, bar._model.y + 4);
-                            }
-                        }), this)
-                    }), this);
-                }
-            },
-            {% endcomment %}
-
-            pointLabelFontFamily: "Quadon Extra Bold",
+                },         
+                legend: {
+                    display: true,
+                },          
+                pointLabelFontFamily: "Quadon Extra Bold",
                 scaleFontFamily : "Quadon Extra Bold",
-                };
-            var myChart = new Chart(ctx, {
+                maintainAspectRatio: false
+            };
+                  if(window.bar != undefined)
+                    window.bar.destroy();
+            window.bar = new Chart(ctx, {
                 type: 'horizontalBar',
                 data: {
                     labels: labels,
-
                     datasets: dataset,
                 },
                 options: barOptions_stacked,

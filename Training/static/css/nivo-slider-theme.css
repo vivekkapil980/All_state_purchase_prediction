@@ -11,6 +11,7 @@
 
 .nivo-caption::after {
   background: #444 none repeat scroll 0 0;
+  background-repeat: no-repeat;
   content: "";
   height: 100%;
   left: 0;
@@ -90,6 +91,7 @@
 
 .nivo-controlNav a {
   background: transparent none repeat scroll 0 0;
+  background-repeat: no-repeat;
   border: 2px solid #fff;
   box-shadow: none;
   display: inline-block;
@@ -106,6 +108,7 @@
 .nivo-controlNav a:hover, .nivo-controlNav a.active {
   background: #fff none repeat scroll 0 0;
   border-color: #3EC1D5;
+  background-repeat: no-repeat;
   -moz-transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
   -o-transform: rotate(180deg);
