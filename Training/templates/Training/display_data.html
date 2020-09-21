@@ -6,7 +6,7 @@
   <div class="card-body card-body-cascade text-center">
 
     <h1 class="card-title" style="color:#3EC1D5"><strong>Customer Details</strong></h1>
-
+    <br>
     <div class="row">
       <div class="col-2 text-center">
       </div>
@@ -72,61 +72,41 @@
       </div>
     </div>
       
-    <div class="row">
-      <div class="col-2 text-center">
-      </div>
-      <div class="col-4">
-        <h6 class="font-weight-bold indigo-text py-2">Risk Factor</h6>    
-        <p class="card-text">{{context.risk}}</p>
-      </div>
-      <div class="col-4">
-        <h6 class="font-weight-bold indigo-text py-2">Duration With Previous Insurancer</h6>    
-        <p class="card-text">{{context.prev_duration}}</p>
-      </div>
-    </div>
+
     
-
-    <div class="row">
-      <div class="col-2 text-center">
-      </div>
-      <div class="col-4">
-        <h6 class="font-weight-bold indigo-text py-2">Price</h6>    
-        <p class="card-text">{{context.price}}</p>
-      </div>
-      <div class="col-4">
-      </div>
-    </div>  
-
+    <br>
     <div class="row">
     
       <div class="col-4 text-center">
       </div>
       <div class="col-4 text-center">      
           <h1 class="card-title text-center" style="color:#3EC1D5"><strong>Quote Details</strong></h1>
-          <table class="table table-striped text-center" >
-            <thead>
-              <tr>
-                <th scope="col">A</th>
-                <th scope="col">B</th>
-                <th scope="col">C</th>
-                <th scope="col">D</th>
-                <th scope="col">E</th>
-                <th scope="col">F</th>
-                <th scope="col">G</th>
-              </tr>              
-            </thead>
-            <tbody>
-              <tr>
-                <td scope="row">{{ans.0}}</td>
-                <td scope="row">{{ans.1}}</td>
-                <td scope="row">{{ans.2}}</td>
-                <td scope="row">{{ans.3}}</td>
-                <td scope="row">{{ans.4}}</td>
-                <td scope="row">{{ans.5}}</td>
-                <td scope="row">{{ans.6}}</td>
-              </tr>
-            </tbody>
-          </table>
+          <br> 
+          
+        <table class="table table-hover" style="height:70px;border: 1px solid black;">
+          <thead>
+            <tr>
+              <th scope="col">A</th>
+              <th scope="col">B</th>
+              <th scope="col">C</th>
+              <th scope="col">D</th>
+              <th scope="col">E</th>
+              <th scope="col">F</th>
+              <th scope="col">G</th>
+            </tr>
+          </thead>
+          <tbody >
+            <tr>
+              <td scope="row">{{ans.0}}</td>
+              <td scope="row">{{ans.1}}</td>
+              <td scope="row">{{ans.2}}</td>
+              <td scope="row">{{ans.3}}</td>
+              <td scope="row">{{ans.4}}</td>
+              <td scope="row">{{ans.5}}</td>
+              <td scope="row">{{ans.6}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="col-4">
       </div>
@@ -139,19 +119,11 @@
   <div class="col-4">
       </div>
       <div class="col-4 text-center">
-      <a class="ready-btn right-btn page-scroll" href="{% url 'training:analysis' %}">Check Analysis</a>
+      <a class="ready-btn right-btn page-scroll" style="color:black" href="{% url 'training:analysis' %}">Check Analysis</a>
       </div>
   
   </div>
-  <div class="row">
-  <div class="col-4">
-  </div>
-  <div class="row">
-  </div>
-  <div class="row">
-  </div>
-  <div class="row">
-  </div>
+  <br>
 
 </div>
 {% endblock %}
