@@ -14,16 +14,12 @@
                     <select class="form-control" style="height:35px" onchange="barGraph()" id="option" name="option"
                         required>
                         <option value='-1'>Chose Option</option>
-                        {% comment %} <option value='risk_factor'>Risk factor</option> {% endcomment %}
                         <option value='married_couple'>Married</option>
                         <option value='state'>State</option>
                         <option value='homeowner'>Home Owner</option>
                         <option value='group_size'>Group Size</option>
-                        {% comment %} <option value='car_age'>Car Age</option> {% endcomment %}
                         <option value='car_value'>Car Value</option>
                         <option value='C_previous'>C Previous</option>
-                        {% comment %} <option value='age_youngest'>Youngest Age</option> {% endcomment %}
-                        {% comment %} <option value='age_oldest'>Oldest Age</option> {% endcomment %}
                         <option value='duration_previous'>Previous Duration</option>
                         <option value='A'>A</option>
                         <option value='B'>B</option>
@@ -75,15 +71,6 @@
         </div>
         
         <script>
-
-            function getRandomColor() {
-                var letters = '0123456789ABCDEF';
-                var color = '#';
-                for (var i = 0; i < 6; i++) {
-                    color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
-            }
             function barGraph() {
                 
                 var myList = {{ context| safe }};

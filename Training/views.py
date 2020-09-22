@@ -96,15 +96,19 @@ def pie_chart(request):
     #print(context)
     return render(request, 'Training/analysis.html', {'context':context})
 
-def dashboard(request):
-    pie_chart()
-    return render(request, 'Training/analysis.html', {})
 
 def Home_Page(request):
+    #dictionary to store and send it over and access in html file
     context = {}
+    #store the quote values given by user from table
     quotes = []
+    #list with all states for states dropdown box
     states=['NE', 'WY', 'OH', 'OK', 'AR', 'OR', 'MD', 'MT', 'CT', 'UT', 'GA', 'IN', 'FL', 'TN', 'DC', 'MS', 'CO', 'RI', 'NV', 'KY', 'WA', 'NH', 'MO', 'PA', 'DE', 'ME', 'AL', 'KS', 'SD', 'WI', 'ND', 'NY', 'NM', 'ID', 'IA', 'WV']
+    
+    #POST request method logic
     if request.method=='POST':
+
+        #For a POST request get all the html textbox,radio button,dropdown box values provided by user in form
         context['customer_id']=request.POST.get('customer_id')
         context['state']=request.POST.get('state')
         context['shop_id']=request.POST.get('shop_id')
@@ -118,8 +122,13 @@ def Home_Page(request):
         context['married']=request.POST.get('married')
         context['risk'] = request.POST.get('risk')
         context['prev_duration'] = request.POST.get('prev_duration')
+
+        #history values of customer quote details
         table = request.POST.get('table')
+        #json data of all the values
         table = json.loads(table)
+
+        #populate quotes list to process it using developed model
         for i, row in enumerate(table):
             quotes.append(row)
         # predict G
@@ -127,14 +136,20 @@ def Home_Page(request):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             process = executor.submit(predict_G,context['state'], quotes[-1][-1], quotes[-2][-1])
             G = process.result()
+        #predicted quote from the model
         ans = quotes[-1][:6] + [G[0]]
-        print('ans is ',ans)
+        #print('ans is ',ans)
         ans[len(ans)-1]=int(ans[len(ans)-1])
+
+        #POST request return value
         return render(request, 'Training/display_data.html', {'context': context,'states':states,'ans':ans})
+
+    #GET request return value
     return render(request,'Training/mainpage.html',{'context':context,'states':states})
 
 
 def Test(request):
+    #to navigate to about.html file which has details about ePrediction website
     return render(request,'Training/about.html')
 
 train = TrainingData()
