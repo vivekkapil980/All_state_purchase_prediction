@@ -157,7 +157,7 @@ def Home_Page(request):
         #populate quotes list to process it using developed model
         for i, row in enumerate(table):
             quotes.append(row)
-        # predict G
+        # run concurrent process to predit G
         with concurrent.futures.ThreadPoolExecutor() as executor:
             process = executor.submit(predict_G,context['state'], quotes[-1][-1], quotes[-2][-1])
             G = process.result()
